@@ -63,6 +63,7 @@ import axios from 'axios';
                 try {
                     response = await axios.post("http://localhost:8080/member/create", data);
                     console.log(response.data);
+                    this.$router.push("/");
                 } catch(error) {
                     alert(error?.response?.data?.statusMessage)
                 }

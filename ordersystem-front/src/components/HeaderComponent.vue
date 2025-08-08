@@ -34,7 +34,10 @@
             }
         },
         created() {
-            console.log("header 컴포넌트");
+            const accessToken = localStorage.getItem("accessToken");
+            if(accessToken) {
+                this.isLogined = true;
+            }
         },
         methods: {
             doLogout() {
