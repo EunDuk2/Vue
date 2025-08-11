@@ -10,6 +10,7 @@
                         <v-data-table
                             :headers="tableHeaders"
                             :items="orderList"
+                            item-value="orderingId"
                             show-expand
                         >
                             <!-- template은 v-data-table에서 슬롯(slot)을 커스터마이징하는 문법 -->
