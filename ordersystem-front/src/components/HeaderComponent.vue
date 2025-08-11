@@ -5,7 +5,7 @@
                 <!-- d-flex justify-start : 왼쪽 기준 정렬 -->
                 <v-col class="d-flex justify-start">
                     <div v-if="userRole==='ADMIN'">
-                        <v-btn>회원관리</v-btn>
+                        <v-btn :to="'/member/list'">회원관리</v-btn>
                         <v-btn>상품관리</v-btn>
                         <v-btn>실시간 주문건수</v-btn>
                     </div>
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { jwtDecode } from 'jwt-decode';
+
     export default {
         data() {
             return {
@@ -36,13 +38,18 @@
         created() {
             const accessToken = localStorage.getItem("accessToken");
             if(accessToken) {
+                const payload = jwtDecode(accessToken);
+                this.userRole = payload.role;            
                 this.isLogined = true;
             }
         },
         methods: {
             doLogout() {
-                window.localStorage.clear();
-                this.isLogined = false;
+                window.localStorage.clear(); // key로 삭제하기
+                // this.isLogined = false;
+                // this.$router.push("/")
+                window.location.reload();
+                this.userRole = null;
             }
         }
     }

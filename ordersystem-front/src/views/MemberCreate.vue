@@ -61,7 +61,7 @@ import axios from 'axios';
                 const data = {name, email, password};
                 let response;
                 try {
-                    response = await axios.post("http://localhost:8080/member/create", data);
+                    response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/member/create`, data);
                     console.log(response.data);
                     this.$router.push("/");
                 } catch(error) {
