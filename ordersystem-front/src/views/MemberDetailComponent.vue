@@ -35,12 +35,7 @@ import { getErrorMessage, getResultData } from '@/utils/commonDataHandler';
             const memberId = this.$route.params.memberId;
             
             try {
-                const accessToken = localStorage.getItem("accessToken");
-                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/detail/${memberId}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/detail/${memberId}`);
                 this.member = getResultData(response);
             } catch(error) {
                 console.log(getErrorMessage(error));
