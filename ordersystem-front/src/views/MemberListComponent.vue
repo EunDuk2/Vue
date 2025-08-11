@@ -51,7 +51,7 @@ import { getErrorMessage, getResultData } from '@/utils/commonDataHandler';
                 this.memberList = getResultData(response);
             } catch(error) {
                 console.log(getErrorMessage(error));
-                alert(getErrorMessage(error));
+                // alert(getErrorMessage(error));
             }
         },
         methods: {

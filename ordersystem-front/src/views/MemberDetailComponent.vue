@@ -4,7 +4,7 @@
             <v-col>
                 <v-card>
                     <v-card-title class="text-center text-h5">
-                        회원상세조회
+                        {{ pageTitle }}
                     </v-card-title>
                     <v-card-text>
                         <v-table>
@@ -26,17 +26,25 @@ import axios from 'axios';
 import { getErrorMessage, getResultData } from '@/utils/commonDataHandler';
 
     export default {
+        // 화면간의 매개변수를 넘길 때, 사용하는 변수값을 props라 칭함
+        props: ['isMyPage', 'pageTitle'],
         data() {
             return {
                 member: {},
             }
         },
        async created() {
-            const memberId = this.$route.params.memberId;
-            
             try {
-                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/detail/${memberId}`);
-                this.member = getResultData(response);
+                if(this.isMyPage) {
+                    const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/myInfo`);
+                    this.member = getResultData(response);
+                } else {
+                    const memberId = this.$route.params.memberId;
+                    const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/detail/${memberId}`);
+                    this.member = getResultData(response);
+                }
+
+                
             } catch(error) {
                 console.log(getErrorMessage(error));
                 alert(getErrorMessage(error));

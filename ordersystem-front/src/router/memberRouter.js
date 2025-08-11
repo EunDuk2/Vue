@@ -2,6 +2,7 @@ import MemberCreate from "@/views/MemberCreate.vue";
 import MemberDetailComponent from "@/views/MemberDetailComponent.vue";
 import MemberListComponent from "@/views/MemberListComponent.vue";
 import MemberLogin from "@/views/MemberLogin.vue";
+import MyPage from "@/views/MyPage.vue";
 
 
 export const membereRouter = [
@@ -23,6 +24,12 @@ export const membereRouter = [
     {
         path: "/member/detail/:memberId",
         name: "MemberDetailComponent",
-        component: MemberDetailComponent
+        component: MemberDetailComponent,
+        props: {pageTitle: "회원상세정보", isMyPage: false}
+    },
+    {
+        path: "/member/mypage",
+        name: "MyPage",
+        component: MyPage
     },
 ]
