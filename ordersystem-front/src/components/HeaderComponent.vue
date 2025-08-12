@@ -6,7 +6,7 @@
                 <v-col class="d-flex justify-start">
                     <div v-if="userRole==='ADMIN'">
                         <v-btn :to="'/member/list'">회원관리</v-btn>
-                        <v-btn>상품관리</v-btn>
+                        <v-btn :to="'/product/manage'">상품관리</v-btn>
                         <v-btn :to="'/order/list'">실시간 주문건수</v-btn>
                     </div>
                 </v-col>

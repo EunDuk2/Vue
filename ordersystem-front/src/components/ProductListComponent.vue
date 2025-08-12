@@ -25,7 +25,7 @@
                     </v-row>
                 </v-form>
             </v-col>
-            <v-col cols="auto">
+            <v-col cols="auto" v-if="!isAdmin">
                 <v-btn @click="addCart()" color="primary">
                     장바구니
                 </v-btn>
@@ -33,12 +33,17 @@
                     주문하기
                 </v-btn>
             </v-col>
+            <v-col cols="auto" v-if="isAdmin">
+                <v-btn :to="'/product/create'" color="primary">
+                    상품등록
+                </v-btn>
+            </v-col>
         </v-row>
         <v-row>
             <v-col>
                 <v-card>
                     <v-card-title class="text-center text-h5">
-                        상품목록
+                        {{ pageTitle }}
                     </v-card-title>
                     <v-card-text>
                         <v-table>
@@ -46,7 +51,9 @@
                                 <tr>
                                     <th>사진</th>
                                     <th>제품명</th><th>가격</th><th>재고수량</th>
-                                    <th>주문수량</th><th>주문선택</th>
+                                    <th v-if="!isAdmin">주문수량</th>
+                                    <th v-if="!isAdmin">주문선택</th>
+                                    <th v-if="isAdmin">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,7 +64,7 @@
                                     <td>{{ product.name }}</td>
                                     <td>{{ product.price }}</td>
                                     <td>{{ product.stockQuantity }}</td>
-                                    <td>
+                                    <td v-if="!isAdmin">
                                         <!-- input박스는 화면에서 숫자처럼 보여도, 실제 입력값은 문자열이다. -->
                                         <v-text-field
                                             v-model.number="product.productCount"
@@ -66,11 +73,13 @@
 
                                         />
                                     </td>
-                                    <td>
+                                    <td v-if="!isAdmin">
                                         <!-- 객체에 체크된 것들이 key:value (id:true) 방식으로 저장된다. -->
                                         <input type="checkbox" v-model="product.selected">
                                     </td>
-                                    
+                                    <td v-if="isAdmin">
+                                        <v-btn color="secondary">상품삭제</v-btn>
+                                    </td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -86,6 +95,7 @@ import { getErrorMessage } from '@/utils/commonDataHandler';
 import axios from 'axios';
 
     export default {
+        props: ['isAdmin', 'pageTitle'],
         data() {
             return {
                 productList: [],
