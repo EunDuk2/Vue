@@ -1,8 +1,35 @@
 <template>
     <v-container>
-        <v-row>
+        <v-row class="d-flex justify-content-between mt-5">
             <v-col>
-                <v-btn @click="createdOrder()">
+                <v-form>
+                    <v-row>
+                        <v-col cols="auto">
+                            <v-select
+                                v-model="searchType"
+                                :items="searchOptions"
+                                item-title="text"
+                                item-value="value"
+                            />
+                        </v-col>
+                        <v-col>
+                            <v-text-field
+                                v-model="searchValue"
+                                label = "Search"
+                                @keyup.enter="searchProduct"
+                            />
+                        </v-col>
+                        <v-col cols="auto">
+                            <v-btn @click="searchProduct()">검색</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-form>
+            </v-col>
+            <v-col cols="auto">
+                <v-btn @click="addCart()" color="primary">
+                    장바구니
+                </v-btn>
+                <v-btn @click="createdOrder()" color="secondary">
                     주문하기
                 </v-btn>
             </v-col>
@@ -66,6 +93,9 @@ import axios from 'axios';
                 currentPage: 0,
                 isLoading: false,
                 isLastPage: false,
+                searchType: "optional",
+                searchValue: "",
+                searchOptions: [{text: "선택", value:"optional"}, {text: "상품명", value:"productName"}, {text: "카테고리", value:"category"}],
             }
         },
         async created() {
@@ -73,6 +103,15 @@ import axios from 'axios';
             window.addEventListener("scroll", this.scrollPaging);
         },
         methods: {
+            searchProduct() {
+                this.productList = [];
+                this.currentPage = 0;
+                this.isLastPage = false;
+                this.isLoading = false;
+
+
+                this.loadData();
+            },
             scrollPaging() {
                 // 현재화면 높이 + 스크롤로 이동한 거리 > 전체화면높이-n(내가 원하는 길이)
                 const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
@@ -88,6 +127,12 @@ import axios from 'axios';
                     size: this.pageSize,
                     page: this.currentPage,
                 };
+                if(this.searchType == "productName") {
+                    params.productName = this.searchValue;
+                }
+                if(this.searchType == "category") {
+                    params.category = this.searchValue;
+                }
                 const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/product/list`, {params});
                 const additionialData = response.data.result.content.map(p => ({...p, productCount: 0, seleted: false}));
                 if(additionialData.length == 0) {
