@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { practiceRouter } from "./practiceRouter";
 import { membereRouter } from "./memberRouter";
 import { orderRouter } from "./orderRouter";
+import { productRouter } from "./productRouter";
 
 
 // routes에서 url경로와 화면을 매핑
@@ -9,6 +10,7 @@ const routes = [
     ...practiceRouter,
     ...membereRouter,
     ...orderRouter,
+    ...productRouter,
 ]
 
 
