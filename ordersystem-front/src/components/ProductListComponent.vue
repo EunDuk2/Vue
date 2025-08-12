@@ -55,24 +55,50 @@
 </template>
 
 <script>
+import { getErrorMessage } from '@/utils/commonDataHandler';
 import axios from 'axios';
 
     export default {
         data() {
             return {
                 productList: [],
+                pageSize: 7,
+                currentPage: 0,
+                isLoading: false,
+                isLastPage: false,
             }
         },
         async created() {
-            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/product/list`);
-            this.productList = response.data.result.content.map(p => ({...p, productCount: 0, seleted: false}));
-        } ,
+            this.loadData();
+            window.addEventListener("scroll", this.scrollPaging);
+        },
         methods: {
-            async createdOrder() {
-                const orderList = this.productList
-                    .filter(p => p.selected == true && p.productCount > 0)
-                    .map(p => ({productId:p.id, productCount:p.productCount}));
+            scrollPaging() {
+                // 현재화면 높이 + 스크롤로 이동한 거리 > 전체화면높이-n(내가 원하는 길이)
+                const isBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+                if(isBottom & !this.isLoading & !this.isLastPage) {
+                    this.loadData();
+                }
+            },
+            async loadData() {
+                this.isLoading = true;
 
+                // 문자열로 직접 ?size=xx&page=yy 형태로도 조립가능하지만, params라는 객체를 사용하면 파라미터형식으로 url조립 (약속된 이름)
+                let params={
+                    size: this.pageSize,
+                    page: this.currentPage,
+                };
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/product/list`, {params});
+                const additionialData = response.data.result.content.map(p => ({...p, productCount: 0, seleted: false}));
+                if(additionialData.length == 0) {
+                    this.isLastPage = true;
+                }
+                this.productList = [...this.productList, ...additionialData];
+                this.currentPage++;
+
+                this.isLoading = false;
+            },
+            async createdOrder() {
                 // let orderList = [];
 
                 // this.productList.forEach(product => {
@@ -83,10 +109,24 @@ import axios from 'axios';
                 //         orderList.push(order);
                 //     }
                 // });
-                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/ordering/create`, orderList);
-                console.log(response);
-                alert("주문이 완료되었습니다");
-                window.location.reload();
+                
+                try {
+                    const orderList = this.productList
+                        .filter(p => p.selected == true && p.productCount > 0)
+                        .map(p => ({productId:p.id, productCount:p.productCount}));
+
+                    if(orderList.length > 0) {
+                        const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/ordering/create`, orderList);
+                        console.log(response);
+                        alert("주문이 완료되었습니다");
+                        window.location.reload();
+                    } else {
+                        alert("상품을 선택해주세요.")
+                    }
+                    
+                } catch (e) {
+                    console.log(getErrorMessage(e));
+                }
             },
         }  
     }
