@@ -36,6 +36,9 @@
     </v-container>
 </template>
 <script>
+import { getErrorMessage } from '@/utils/commonDataHandler';
+import axios from 'axios';
+
     export default {
         data() {
             return {
@@ -55,7 +58,14 @@
                 this.$store.dispatch("clearCart");
             },
             async orderCreate() {
-
+                try {
+                    const orderData = this.getProductsInCart.map(p => {return{productId:p.productId, productCount:p.productCount}});
+                    await axios.post(`${process.env.VUE_APP_API_BASE_URL}/ordering/create`, orderData);
+                    this.clearCart();
+                    alert("주문 완료");
+                } catch(e) {
+                    console.log(getErrorMessage(e));
+                }
             },
         },
     }
