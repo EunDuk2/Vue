@@ -15,7 +15,7 @@
                     <v-btn to="'/'">java shop</v-btn>
                 </v-col>
                 <v-col class="d-flex justify-end">
-                    <v-btn v-if="isLogined" :to="'/member/login'">장바구니 {{ cartProductCount }} </v-btn>
+                    <v-btn v-if="isLogined" :to="'/member/login'">장바구니 {{ totalQuantity }} </v-btn>
                     <v-btn :to="'/product/list'">상품목록</v-btn>
                     <v-btn v-if="isLogined" :to="'/member/mypage'">마이페이지</v-btn>
                     <v-btn v-if="!isLogined" :to="'/member/create'">회원가입</v-btn>
@@ -35,7 +35,11 @@ import { jwtDecode } from 'jwt-decode';
             return {
                 userRole: null,
                 isLogined: false,
-                cartProductCount: 0,
+            }
+        },
+        computed: {
+            totalQuantity() {
+                return this.$store.getters.getTotalQuantity;
             }
         },
         created() {
