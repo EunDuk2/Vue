@@ -114,14 +114,11 @@ import axios from 'axios';
         },
         methods: {
             addCart() {
-                let totalQuantity = 0;
                 const orderList = this.productList
                         .filter(p => p.selected == true && p.productCount > 0)
-                        .map(p => ({productId:p.id, productCount:p.productCount}));
-                for(let i = 0 ; i < orderList.length ; i++) {
-                    totalQuantity += orderList[i].productCount;
-                }
-                this.$store.dispatch("addCart", totalQuantity);
+                        .map(p => ({productId:p.id, name:p.name, productCount:p.productCount}));
+               
+                orderList.forEach(p => this.$store.dispatch("addCart", p)); 
             },
             searchProduct() {
                 this.productList = [];
