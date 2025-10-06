@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="414" height="896" viewBox="0 0 414 896">
+  <title>내 채팅 목록</title>
+  <desc>Figma 스타일 사양을 기반으로 구성한 채팅 목록 리스트 SVG</desc>
+
+  <style>
+    .heading { font-family: 'Pretendard', sans-serif; font-weight: 700; font-size: 20px; fill: #1C0F0F; }
+    .name { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 10px; fill: #000000; }
+    .message { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 10px; fill: #484646; }
+    .time { font-family: 'Pretendard', sans-serif; font-weight: 400; font-size: 10px; fill: #484646; text-anchor: end; }
+  </style>
+
+  <!-- Card: Rectangle 31 -->
+  <rect x="16" y="44" width="383" height="868" rx="20" fill="#FFFFFF" />
+
+  <!-- Header Background -->
+  <rect x="16" y="44" width="383" height="64" rx="20" fill="#FFE364" />
+
+  <!-- Heading: 내 채팅 목록 -->
+  <text class="heading" x="48" y="80">내 채팅 목록</text>
+
+  <!-- List Item 1 (top ~131) -->
+  <!-- Avatar / Vector placeholder -->
+  <circle cx="65" cy="140" r="9" fill="#2A2828" />
+
+  <!-- Name -->
+  <text class="name" x="102" y="141">조민형</text>
+  <!-- Message -->
+  <text class="message" x="102" y="158">어제 미팅자료 잘 정리해놓으세요~~</text>
+  <!-- Time (right aligned around x=375) -->
+  <text class="time" x="375" y="158">15분 전</text>
+
+  <!-- Divider between item 1 and 2 -->
+  <line x1="48" y1="180" x2="383" y2="180" stroke="#E5E5E5" stroke-width="1" />
+
+  <!-- Notification Badge (Group 20 / Ellipse 4) -->
+  <ellipse cx="253.5" cy="155" rx="5.5" ry="4" fill="#FF1717" />
+  <text x="253.5" y="156" font-family="Pretendard, sans-serif" font-size="6" fill="#000000" text-anchor="middle" dominant-baseline="middle">8</text>
+
+  <!-- List Item 2 (top ~201) -->
+  <circle cx="65" cy="210" r="9" fill="#2A2828" />
+  <text class="name" x="102" y="211">조민형 외 2명</text>
+  <text class="message" x="102" y="228">어제 미팅자료 잘 정리해놓으세요~~</text>
+  <text class="time" x="375" y="228">어제</text>
+
+  <!-- Divider between item 2 and 3 -->
+  <line x1="48" y1="252" x2="383" y2="252" stroke="#E5E5E5" stroke-width="1" />
+
+  <!-- List Item 3 (top ~275) -->
+  <circle cx="65" cy="284" r="9" fill="#2A2828" />
+  <text class="name" x="102" y="285">김현지 외 4명</text>
+  <text class="message" x="102" y="302">어제 미팅자료 잘 정리하시고 각자 맡은 업...</text>
+  <text class="time" x="375" y="302">2025-09-23</text>
+
+  <!-- 참고: 원본 사양의 다수 Vector 항목(퍼센트 좌표)은 아이콘/장식으로 추정되어 간략화 -->
+</svg>
+
+

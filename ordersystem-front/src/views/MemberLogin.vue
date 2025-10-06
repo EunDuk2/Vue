@@ -54,7 +54,7 @@ import axios from 'axios';
                 const data = {email, password};
                 let response;
                 try {
-                    response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/member/doLogin`, data);
+                    response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/member-service/member/doLogin`, data);
                     const accessToken = getResultData(response).accessToken;
                     const refreshToken = getResultData(response).refreshToken;
                     localStorage.setItem("accessToken", accessToken);
