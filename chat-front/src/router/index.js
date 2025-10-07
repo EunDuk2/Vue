@@ -27,7 +27,7 @@ const routes = [
         component: SimpleWebsocket
     },
     {
-        path: '/chat/page',
+        path: '/chatpage',
         name: "StompChatPage",
         component: StompChatPage
     },
