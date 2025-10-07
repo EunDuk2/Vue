@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 
@@ -45,9 +46,13 @@ import Stomp from 'webstomp-client';
                 roomId: null,
             }
         },
-        created() {
+        async created() {
             this.senderEmail = localStorage.getItem("email");
             this.roomId = this.$route.params.roomId;
+
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/chat/history/${this.roomId}`);
+            this.messages = response.data;
+
             this.connectWebsocket();
         },
         // 사용자가 현재 라우트에서 다른 라우트로 이동하려고 할 때, 호출되는 훅함수
@@ -74,7 +79,7 @@ import Stomp from 'webstomp-client';
                             const parseMessage = JSON.parse(message.body);
                             this.messages.push(parseMessage);
                             this.scrollToBottom();
-                        });
+                        }, { Authorization: `Bearer ${this.token}`});
                     }
                 );
             },
